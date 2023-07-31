@@ -1,0 +1,10 @@
+udemx@udemx.eu legyen a default user
+      sudo apt install git
+      git config --global user.name "udemx"
+      git config --global user.email "udemx@udemx.eu"
+      
+EXTRA1: ssh-kulcs alapú git elérés beállítása
+      A Git fiókomban hozzáadtam az ssh kulcsot a profilomhoz.
+      A tartalmát így tudtam meg -> cat ~/.ssh/id_rsa.pub
+      (Ha azt szeretném, hogy mindig ezt használja -> git config --global core.sshCommand "ssh -i /path/to/ssh/private_key")
+     

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+DB_USER="udemx"
+DB_PASS="Udemx1234"
+DB_NAME="udemx_db"
+
+date=$(date +'%Y-%m-%d_%H:%M:%S')
+
+BACKUP_DIR="/scripts/1_dump/$date"
+
+mysqldump --user=$DB_USER --password=$DB_PASS $DB_NAME > $BACKUP_DIR.sql

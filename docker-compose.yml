@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: example_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: example_database
+      MYSQL_USER: example_user
+      MYSQL_PASSWORD: example_password
+      MYSQL_ROOT_PASSWORD: root_password
+    volumes:
+      - db_data:/var/lib/mysql
+
+  web:
+    image: nginx:latest
+    container_name: example_web
+    restart: always
+    ports:
+      - "8080:80" # Itt beállítjuk a port elérhetőségét. Bal oldalon a gép portja, jobb oldalon a konténer portja.
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+
+volumes:
+  db_data:

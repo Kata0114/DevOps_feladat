@@ -1,0 +1,17 @@
+Tetszőleges alkalmazás (pl: github laravel demo project) életrekeltése docker compose-al külön db-vel és web kiszolgálóval.
+
+  (Compiler és php telepítése)
+  sudo apt install curl
+  curl -s https://laravel.build/example-app | bash
+  cd example-app
+  ./vendor/bin/sail up
+  
+  docker-compose.yml yaml fájl megírása
+  .env fájl módosítása (default.env)
+  docker-compose up -d
+
++1: vim-ből kilépés parancsa :) :) :)
+  Ha insert módban vagyunk, akkor normal mode-ra kell váltani -> 'ESC'
+  Kilépés: ':q + ENTER'
+  Kilépés és mentés: ':wq + ENTER'
+  

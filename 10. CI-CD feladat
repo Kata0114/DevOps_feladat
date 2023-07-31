@@ -1,0 +1,47 @@
+Jenkins telepítése dockerben és alap beállítások
+  -A jenkins szerver telepítése dockerban
+  -Egy worker node létrehozása a hoszton / egy másik konténeren
+  
+      docker pull jenkins/jenkins:lts
+      docker run -d -p 8888:8080 -p 50000:50000 --name jenkins_server -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts
+  
+      Jenkins worker node létrehozása a hoszton:
+            docker exec -d jenkins_server java -jar /var/jenkins_home/war/WEB-INF/jenkins-cli.jar -s http://localhost:8888 create-node host_worker   --username udemx --password Udemx@1234   --description "Worker Node 1" --executors 2   --labels "java"
+
+      Jenkins worker node létrehozása külön Docker konténerben:
+            docker run -d --name jenkins_worker --link jenkins_server:jenkins jenkins/jnlp-slave
+
+      
+Privát Docker registry telepítése dockerben
+  Két docker konténert kell indítani:
+  Docker Registry
+  Docker Registry UI
+  
+      Docker Registry konténer létrehozása: docker run -d -p 5000:5000 --name docker_registry -v /path/to/registry:/var/lib/registry registry:2
+      Docker Registry UI konténer létrehozása: docker run -d -p 8000:8080 --name docker_registry_ui -e ENV_DOCKER_REGISTRY_HOST=host.docker.internal -e ENV_DOCKER_REGISTRY_PORT=5000 hyper/docker-registry-web
+
+(Itt igazából betelt a root partícióm, és a méretnövelés elég nehézkes lenne vm-en keresztül, szóval csak a megoldás menetét írtam le. Kipróbáltam másik gépen és működött.)
+
+Githubon egy privát repó és egy új projekt létrehozása
+  A Repository-ba egy projekt létrehozása - Hello World http server / tetszőleges más webes alkalmazás
+  A projekt tartalmazzon egy dockerfile-t, amivel elkészíthető a szükséges docker image
+  
+    Létrehoztam a privát repót: -Hello-World-http-server---DevOps-feladat
+    
+    Létrehoztam egy új mappát a projektnek.
+    Létrehoztam egy python fájlt (app.py)
+    Létrehoztam egy Dockerfile-t (Dockerfile (CI-CD feladat))
+    Docker image létrehozása: docker build -t hello-world-server .
+    Docker konténer indítása: docker run -p 8088:8088 hello-world-server
+    Githubra feltöltés:
+        git status
+        git init
+        git add .
+        git commit -m "Initial commit"
+        git remote add origin https://github.com/Kata0114/-Hello-World-http-server---DevOps-feladat.git 
+        git push -u origin main
+
+Jenkins job létrehozása
+  Belépés Jenkinsbe
+  New Item -> Pipeline opció kiválasztása
+  A projekt gyökérkönyvtárában létre kell hozni egy új fájlt. (Jenkinsfile)

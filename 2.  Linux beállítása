@@ -1,0 +1,53 @@
+Ezeket a beállításokat root-ként végeztem. (Ehhez a 'su' parancsot adtam ki)
+A telepítések előtt frissítettem a csomaglistát (sudo apt-get update).
+
+sudo telepítése
+  sudo apt-get install sudo
+  Már alapból telepítve volt.
+  
+Midnight Commander telepítése
+  sudo apt-get install mc
+
+htop telepítése
+  sudo apt-get install htop
+
+OpenJDK 8 és OpenJDK 11 telepítése
+  sudo apt-get install openjdk-11-jdk
+  
+  Az OpenJDK 8-at alapból nem támogatja a Debian 11. Ezért nem telepítettem.
+
+  EXTRA: Állítsd a javac verzióját OpenJDK 8-ra.
+      Mivel nem telepítettem az OpenJDK 8-at így ezt nem tettem meg, de valahogy így kellene:
+            sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac
+
+udemx user létrehozása
+  sudo adduser udemx
+  jelszava: Udemx1234
+  
+  EXTRA: a udemx user home mappája legyen a /opt/udemx mappában.
+      sudo usermod -d /opt/udemx udemx
+
+ssh elérés beállítása
+  EXTRA1: az ssh portja ne a default port legyen
+  EXTRA2: PEM alapú belépés jelszó helyett
+  
+     sudo apt-get install openssh-server
+     sudo nano /etc/ssh/sshd_config
+        A Port-ot megváltoztattam 2200-ra
+     ssh-keygen -t rsa  - kulcs létrehozása
+     chmod 400 ~/.ssh/id_rsa
+     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+     chmod 700 ~/.ssh
+     chmod 600 ~/.ssh/authorized_keys
+     ssh-copy-id -i ~/.ssh/id_rsa.pub root@debian
+     
+     Ellenőrzés: Sikerült belépni.
+
+fail2bantelepítése és az
+  SSH-ra való bekonfigrálása
+  valamint nginx-ra való bekonfigurálása
+      
+      sudo apt-get install fail2ban
+      /etc/fail2ban mappában -> sudo cp jail.conf jail.local
+      Az sshd, illetve az nginx résznél a jail.local fájlban beírtam az "enabled = true" sort. 
+  

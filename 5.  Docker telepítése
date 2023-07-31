@@ -1,0 +1,40 @@
+hello-world container futtatása
+      sudo apt install docker.io
+      sudo docker run hello-world
+      
+EXTRA1: minden egyéb feladat (MariaDB, NGINX) konténerben fusson
+EXTRA2: minden konténer automatikusan elindul a virtualis géppel
+      sudo apt-get update
+      sudo apt-get install docker-compose
+     
+      MariaDB: (Itt ütközött volna már meglévő mariadb szerverrel, így itt csak a megoldását írtam le)
+            docker pull mariadb -> mariadb:latest
+            Docker file létrehozása: (DockerFile)
+                  "
+                   FROM mariadb
+                   ENV MYSQL_ROOT_PASSWORD=Udemx1234
+                   EXPOSE 3306
+                  "
+                     
+            Docker image build: docker build -t my-mariadb-image .
+            Konténer futtatása: docker run -d --name my-mariadb-container -e MYSQL_ROOT_PASSWORD=Udemx1234 -p 3306:3306 my-mariadb-image
+            Automatikus indulás:
+                  sudo nano /etc/systemd/system/my-mariadb-container.service
+                       "
+                        [Unit]
+                        Description=MariaDB Docker Container
+                        Requires=docker.service
+                        After=docker.service
+
+                        [Service]
+                        Restart=always
+                        ExecStart=/usr/bin/docker start -a my-mariadb-container
+                        ExecStop=/usr/bin/docker stop -t 2 my-mariadb-container
+
+                        [Install]
+                        WantedBy=multi-user.target
+                       "
+                       
+            sudo systemctl enable my-mariadb-container.service
+            sudo systemctl start my-mariadb-container.service
+            

@@ -1,0 +1,19 @@
+Letöltöttem hozzá a szükséges iso képfájlt. 
+
+Ezután VMware-ben dolgoztam. Létrehoztam egy virtuális gépet az adott iso fájllal. 
+A diszk kapacitását alapártelmezetten hagytam (20 GB).
+Az alap beállításokat elvégeztem (nyelv, stb.).
+Hostname: debian
+Root jelszó: Alma1234
+Saját user név: Kata
+Saját user felhasználó név: kata
+Saját user jelszó: Alma123
+
+Ahhoz, hogy az /opt és a /tmp külön partícióra kerüljön, külön manuálisan beállítottam a partíciókat.
+Jelenleg így néz ki:
+      #1 primary 4.3 GB f ext4 /opt
+      #5 logical 3.4 GB f ext4 /tmp
+      #6 logical 12.7 GB f ext4 /
+      #7 logical 1.0 GB f swap swap
+
+Végeztem a telepítéssel. 

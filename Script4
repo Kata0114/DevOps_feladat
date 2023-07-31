@@ -1,0 +1,9 @@
+#!/bin/bash
+
+date=$(date +'%Y-%m-%d_%H:%M:%S')
+
+output_file="/scripts/4_dump/loadavg-${date}.out"
+
+awk '{print $3}' /proc/loadavg > "$output_file"
+
+cat "$output_file"

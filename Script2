@@ -1,0 +1,10 @@
+#!/bin/bash
+
+date=$(date +'%Y-%m-%d_%H:%M:%S')
+
+output_file="/scripts/2_dump/mod-${date}.out"
+
+find /var/log -type f -printf '%T@ %p\n' | sort -nr | head -n 3 > "$output_file"
+
+echo "A 3 legutoljára módosított fájl a /var/log mappából: "
+cat "$output_file"

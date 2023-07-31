@@ -1,0 +1,36 @@
+80-as porton
+Hello UDEMX! legyen a főoldalon kiírva.
+EXTRA: HTTPS beállítása, self signed cert-el
+
+Ez a feladat nem igazán sikerült: erre jutottam: 
+
+      sudo apt-get install nginx
+      Alapból a 80-as porton van telepítve.
+      webszerver elindítása: sudo systemctl start nginx
+
+            Először legeneráltam a tanúsítványt. - (openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout myserver.key -out myserver.crt)
+            A privát kulcsom: myserver.key
+            Tanusítványom: myserver.crt
+            A szerver adatainak csak az országot adtam meg (HU), a többit nem töltöttem ki.
+            
+            Létrehoztem az index.html fájlt.
+            Létrehoztam a konfigurációs fájlt: myserver.conf 
+            
+
+      /etc/nginx/sites-available/default fájl módosítása (a lényeges részek):
+      "
+            server {
+                  listen 80 default_server;
+                  listen [::]:80 default_server;
+                  server_name uudemx.com;
+                  return 302 https://$server_name$request_uri;
+            }
+
+            server {
+
+                  # SSL configuration
+
+                  listen 443 ssl http2 default_server;
+                  listen [::]:443 ssl http2 default_server;
+                  include conf.d/myserver.conf;
+      "

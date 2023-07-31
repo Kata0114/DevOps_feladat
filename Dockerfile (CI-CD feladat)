@@ -1,0 +1,9 @@
+FROM python:3
+
+COPY /home/kata/Documents/Repo /app
+
+WORKDIR /app
+
+CMD ["python", "app.py"]
+
+EXPOSE 8088

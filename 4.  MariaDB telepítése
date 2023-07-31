@@ -1,0 +1,10 @@
+default porton
+      sudo apt install mariadb-server
+      sudo systemctl start mariadb
+      sudo systemctl enable mariadb
+EXTRA: udemx user és hozzá udemx-db létrehozása arra a udemx user jogosultságának beállítása.
+      Beléptem a db-be: sudo mysql -u root -p
+      CREATE USER 'udemx'@'localhost' IDENTIFIED BY 'Udemx1234';
+      CREATE DATABASE udemx_db;
+      GRANT ALL PRIVILEGES ON udemx_db.* TO 'udemx'@'localhost';
+      FLUSH PRIVILEGES;

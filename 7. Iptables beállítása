@@ -1,0 +1,26 @@
+Feladat: csak az alkalmazáshoz szükséges portok legyenek nyitva a VM-en.
+Szükséges portok: 
+  Nginx: 80 (http)
+         443 (https)
+  MariaDB: 3306
+  Docker: 8080
+  Git: 9418
+  
+Az iptables filter tábláját kell beállítani:
+
+Töröljük a meglévő szabályokat:
+    sudo iptables -F
+
+Új szabályok:
+    sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+    sudo iptables -A OUTPUT -p tcp --sport 80 -j ACCEPT
+    sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+    sudo iptables -A OUTPUT -p tcp --sport 443 -j ACCEPT
+    sudo iptables -A INPUT -p tcp --dport 3306 -j ACCEPT
+    sudo iptables -A OUTPUT -p tcp --sport 3306 -j ACCEPT
+    sudo iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
+    sudo iptables -A OUTPUT -p tcp --sport 8080 -j ACCEPT
+    sudo iptables -A INPUT -p tcp --dport 9418 -j ACCEPT
+    sudo iptables -A OUTPUT -p tcp --sport 9418 -j ACCEPT
+
+Tábla elmentése: /sbin/iptables-save

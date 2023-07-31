@@ -1,0 +1,10 @@
+#!/bin/bash
+
+date=$(date +'%Y-%m-%d_%H:%M:%S')
+
+output_file="/scripts/3_dump/last_five-${date}.out"
+
+find /var/log/* -type f -mtime -5 -printf '%T@ %p\n' | sort -nr > "$output_file"
+
+echo "Az utolsó 5 napon belül módosított fájlok a /var/log/* mappákból:"
+cat "$output_file"
